@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:fast_search/data/model/words.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
-class FileLoader {
+class WordsRepository {
   Future<Words> getWords(String path) async {
     final data = await rootBundle.loadString(path);
 

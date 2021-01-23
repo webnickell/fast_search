@@ -1,10 +1,21 @@
-import 'package:fast_search/bloc/index_bloc/index_bloc.dart';
+import 'package:fast_search/bloc/index_bloc/index_cubit.dart';
+import 'package:fast_search/data/service/words_repository.dart';
 import 'package:fast_search/ui/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MyApp());
+  final path = 'assets/words.txt';
+  final wordsRepository = WordsRepository();
+
+  runApp(FutureProvider(
+    create: (_) => wordsRepository.getWords(path),
+    child: BlocProvider(
+      create: (ctx) => IndexCubit(ctx),
+      child: MyApp(),
+    ),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -16,10 +27,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: BlocProvider(
-        create: (ctx) => IndexBloc([]),
-        child: HomePage(title: 'Flutter Demo Home Page'),
-      ),
+      home: HomePage(),
     );
   }
 }
